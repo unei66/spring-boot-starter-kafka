@@ -24,11 +24,11 @@ public class KafkaTransactionProducerAutoConfiguration {
     private String applicationName;
 
     @Bean
-    public EventSenderRunner eventSenderRunner(KafkaTransactionProducerProperties producerProperties) {
+    public EventSender eventSenderRunner(KafkaTransactionProducerProperties producerProperties) {
         if (StringUtils.isBlank(producerProperties.senderName)) {
             producerProperties.senderName = applicationName;
         }
-        return new EventSenderRunner(producerProperties);
+        return new EventSender(producerProperties);
     }
 
     @Bean
@@ -49,6 +49,7 @@ public class KafkaTransactionProducerAutoConfiguration {
 
         private int sendTimeout = 5;
 
+        private String eventTableName;
     }
 
 }

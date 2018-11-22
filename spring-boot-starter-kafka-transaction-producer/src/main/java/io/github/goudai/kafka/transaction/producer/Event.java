@@ -24,19 +24,19 @@ import static io.gd.generator.api.query.Predicate.EQ;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class GoudaiEvent {
+public class Event {
 
     @Id
     @Field(label = "id")
     @NotBlank
-    @Column(columnDefinition = "BigInt(20)")
+    @Column(length=20)
     private String id;
 
     @Query({EQ})
     @Field(label = "项目id")
     @View
     @NotBlank
-    @Column(columnDefinition = "BigInt(20)")
+    @Column(length=20)
     private String projectId;
 
     @NotBlank

@@ -8,14 +8,14 @@ import java.util.Date;
 public class TransactionProducerImpl implements TransactionProducer {
 
     @Autowired
-    private GoudaiEventMapper goudaiEventMapper;
+    private EventMapper goudaiEventMapper;
 
     @Autowired
     private IdGenerator idGenerator;
 
     @Override
     public void send(String topic, Object payload) {
-        GoudaiEvent event = new GoudaiEvent();
+        Event event = new Event();
         event.setTopic(topic);
         event.setPayload(JsonUtils.toJson(payload));
         event.setProjectId("1");

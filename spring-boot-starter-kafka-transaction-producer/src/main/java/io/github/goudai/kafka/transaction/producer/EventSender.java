@@ -18,25 +18,25 @@ import java.util.concurrent.TimeUnit;
  */
 @EnableConfigurationProperties(KafkaTransactionProducerAutoConfiguration.KafkaTransactionProducerProperties.class)
 @Slf4j
-public class EventSenderRunner extends AbstractRunner {
+public class EventSender extends AbstractRunner {
 
     @Autowired
     private Producer<String, String> producer;
 
     @Autowired
-    private GoudaiEventMapper eventMapper;
+    private EventMapper eventMapper;
 
     private int sendTimeout;
 
-    public EventSenderRunner(KafkaTransactionProducerAutoConfiguration.KafkaTransactionProducerProperties producerProperties) {
+    public EventSender(KafkaTransactionProducerAutoConfiguration.KafkaTransactionProducerProperties producerProperties) {
         super(producerProperties.getSenderName(), "1");
         this.sendTimeout = producerProperties.getSendTimeout();
     }
 
     @Override
     public void doRun() throws Exception {
-        final List<GoudaiEvent> unsentEvents = eventMapper.getUnsentEvents();
-        for (GoudaiEvent event : unsentEvents) {
+        final List<Event> unsentEvents = eventMapper.getUnsentEvents();
+        for (Event event : unsentEvents) {
             Future<RecordMetadata> future = producer.send(new ProducerRecord<>(event.getTopic(), event.getId(), event.getPayload()));
             /* waiting for send success. */
             future.get(sendTimeout, TimeUnit.SECONDS);
